@@ -10,7 +10,7 @@ const Crud = () => {
     })
 
     const {register, handleSubmit} = useForm()
-
+    console.log('hola')
     return(
         <div>
             <p>Hola mundo</p>
