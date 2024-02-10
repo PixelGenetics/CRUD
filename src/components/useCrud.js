@@ -1,0 +1,49 @@
+import axios from "axios";
+import {useState} from "react"; 
+
+const useCrud = (urlBase) => {
+    const [apiData,setApiData]= useState();
+
+    //Read
+    const getApi = (path) => {
+        axios.get(`${urlBase}${path}/4160`)
+            .then(resp => {
+                setApiData(resp.data)
+                console.log('resp.data',resp.data)
+            })
+            .catch(error => console.log(error));
+    }
+
+    //Create
+    const postApi = (path,data) => {
+        axios.post(`${urlBase}${path}/`, data)
+            .then(resp => {
+                setApiData([...apiData,resp.data])
+                console.log(resp.data)
+            })
+            .catch(error => console.log(error));
+    }
+
+    //delete
+    const deleteApi = (path,id) => {
+        axios.delete(`${urlBase}${path}/${id}/`)
+            .then(() => {
+                setApiData(apiData.filter(element => element.id!==id))
+            })
+            .catch(error => console.log(error))
+    }
+
+    //update
+    const updateApi = (path,id,data) => {
+        axios.patch(`${urlBase}${path}/${id}/`, data)
+            .then(resp => {
+                setApiData(apiData.map(element => element.id===id? resp.data : element));
+                console.log(resp.data);
+            })
+            .catch(error => console.log(error));
+    }
+
+    return [apiData, getApi, postApi, deleteApi, updateApi];
+}
+
+export default useCrud
