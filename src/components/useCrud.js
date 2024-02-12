@@ -2,14 +2,13 @@ import axios from "axios";
 import {useState} from "react"; 
 
 const useCrud = (urlBase) => {
-    const [apiData,setApiData]= useState();
+    const [apiData,setApiData]= useState([]);
 
     //Read
     const getApi = (path) => {
-        axios.get(`${urlBase}${path}/4160`)
+        axios.get(`${urlBase}${path}`)
             .then(resp => {
                 setApiData(resp.data)
-                console.log('resp.data',resp.data)
             })
             .catch(error => console.log(error));
     }
@@ -19,7 +18,6 @@ const useCrud = (urlBase) => {
         axios.post(`${urlBase}${path}/`, data)
             .then(resp => {
                 setApiData([...apiData,resp.data])
-                console.log(resp.data)
             })
             .catch(error => console.log(error));
     }
